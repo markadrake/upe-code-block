@@ -1,0 +1,57 @@
+﻿<html>
+<head>
+	<title></title>
+	<link href="/App_Plugins/CodeMirror/lib/codemirror.css" rel="stylesheet" />
+	<script src="/App_Plugins/CodeMirror/lib/codemirror.js"></script>
+	<script src="/App_Plugins/CodeMirror/addon/selection/selection-pointer.js"></script>
+	<script src="/App_Plugins/CodeMirror/addon/edit/matchbrackets.js"></script>
+	<script src="/App_Plugins/CodeMirror/mode/xml/xml.js"></script>
+	<script src="/App_Plugins/CodeMirror/mode/javascript/javascript.js"></script>
+	<script src="/App_Plugins/CodeMirror/mode/css/css.js"></script>
+	<script src="/App_Plugins/CodeMirror/mode/htmlmixed/htmlmixed.js"></script>
+	<script src="/App_Plugins/CodeMirror/plugins/emmet.js"></script>
+</head>
+<body>
+
+	<form>
+		<textarea id="codemirror"></textarea>
+	</form>
+	<script>
+		(function () {
+			var editor = CodeMirror.fromTextArea(document.getElementById("codemirror"), {
+				mode: "htmlmixed",
+				lineNumbers: true,
+				matchBrackets: true,
+				selectionPointer: true,
+				indentWithTabs: true,
+				profile: "html"
+			});
+
+			emmetCodeMirror(editor);
+
+			// Send initial request for data
+			sendData();
+
+			// Send the new value back to Umbraco property editor
+			editor.on("change", function (a, b) {
+				sendData();
+			});
+
+			// Set the default value coming from Umbraco
+			window.addEventListener("message", function (event) {
+				if (event.data.uskCodeMirror) {
+					editor.setValue(event.data.uskCodeMirror);
+				}
+			});
+
+			function sendData() {
+				var content = editor.getValue();
+				window.parent.postMessage({
+					uskCodeMirror: content
+				}, "*");
+			}
+
+		})();
+	</script>
+</body>
+</html>

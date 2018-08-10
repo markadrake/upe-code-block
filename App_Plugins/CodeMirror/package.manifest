@@ -1,0 +1,20 @@
+﻿{
+	"propertyEditors": [
+		{
+			"name": "Code Mirror",
+			"alias": "CodeMirror",
+			"editor": {
+				"valueType": "STRING",
+				"view": "~/App_Plugins/CodeMirror/codeMirror.html"
+			},
+			"prevalues": {
+			}
+		}
+	],
+	"css": [
+		"~/App_Plugins/CodeMirror/codeMirror.css"
+	],
+	"javascript": [
+		"~/App_Plugins/CodeMirror/codeMirror.controller.js"
+	]
+}
